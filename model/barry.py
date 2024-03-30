@@ -10,7 +10,7 @@ load_dotenv()
 
 openai = OpenAI(api_key = os.getenv("OPENAI_API_KEY"))
 
-class Scoopy:
+class Barry:
     def __init__(self):
         self.assistant_id = os.getenv("OPENAI_ASSISTANT_ID")
 
