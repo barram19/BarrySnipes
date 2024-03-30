@@ -1,11 +1,11 @@
 from datetime import datetime
-from model.scoopy import Scoopy
+from model.barry import Barry
 import asyncio
 import json
 
 def main():
 
-    scoopy = Scoopy()
+    barry = Barry()
 
 
     while True:
@@ -16,9 +16,9 @@ def main():
         # Thread logic here, maybe
 
         try:
-            scoopy.query(query)
+            barry.query(query)
         except Exception as e:
-            print(f"[!] Error querying Scoopy! ({e})")
+            print(f"[!] Error querying Barry! ({e})")
             continue
 
 if __name__ == "__main__":
