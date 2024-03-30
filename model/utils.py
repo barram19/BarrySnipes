@@ -49,7 +49,7 @@ class EventHandler(AssistantEventHandler):
 
   @override
   def on_text_created(self, text) -> None:
-    print(f"\nScoopy: ", end="", flush=True)
+    print(f"\nBarry: ", end="", flush=True)
       
   @override
   def on_text_delta(self, delta, snapshot):
