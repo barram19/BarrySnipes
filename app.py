@@ -1,14 +1,31 @@
 import streamlit as st
 import requests
-from streamlit_chat import message
+from streamlit_chat import message  # Import to create chat-style interface
 
 # Title for the application
 st.title("Chat w/Barry Snipes")
 
-# Backend API URL
+# Instructions or description for the user
+st.write("Send your sports betting questions to Barry below. The more specific you are regarding sport or player, the better.")
+
+# Backend API URL (no change)
 backend_url = 'https://backend-api-dot-barrysnipes.uc.r.appspot.com'
 
-# Test backend connectivity
+# Initialize chat history if it doesn't exist
+if 'history' not in st.session_state:
+    st.session_state['history'] = []
+
+# Function to add user input and bot response to the chat history
+def add_to_history(user_input, ai_response):
+    st.session_state['history'].append({"user": user_input, "bot": ai_response})
+
+# Function to display the chat history with auto-scrolling behavior
+def display_chat_history():
+    for chat in st.session_state['history']:
+        message(chat["user"], is_user=True)  # Display user message
+        message(chat["bot"])  # Display bot response
+
+# Test backend connectivity on initial page load
 try:
     response = requests.get(backend_url)
     if response.status_code == 200:
@@ -18,45 +35,39 @@ try:
 except Exception as e:
     st.write(f"Error reaching backend: {e}")
 
-# Chat history
-if 'chat_history' not in st.session_state:
-    st.session_state['chat_history'] = []
+# Create a text input box for the user to type their inquiry
+user_input = st.text_input("Type your question here:")
 
-# User input function
-def get_input():
-    return st.text_input("Type your question here:", disabled=st.session_state.get('is_locked', False))
+# Create an empty placeholder for showing the chat history
+chat_placeholder = st.empty()
 
-# Display chat history
-def display_chat():
-    for i, chat in enumerate(st.session_state['chat_history']):
-        message(chat['user'], is_user=True, key=f'user_{i}', avatar_style=None, background_color="#ADD8E6")
-        message(chat['bot'], is_user=False, key=f'bot_{i}', avatar_style=None, background_color="#D3D3D3")
+# Add a button to send the user's input to the backend
+send_button = st.button("Send")
 
-# Send message to backend and display response
-def send_message(user_input):
-    if user_input:
-        st.session_state.is_locked = True
+if send_button and user_input:
+    # Disable the send button while processing the request
+    with st.spinner("Processing..."):
+        # Send the input to the backend API
         try:
-            with st.spinner("Processing..."):
-                response = requests.post(f'{backend_url}/interact', json={'input': user_input})
-                if response.status_code == 200:
-                    ai_response = response.json().get("response", "No response received from the AI")
-                    st.session_state.chat_history.append({'user': user_input, 'bot': ai_response})
-                    st.session_state.is_locked = False
-                else:
-                    st.write(f"Error: Backend returned status code {response.status_code}")
-                    st.session_state.is_locked = False
+            response = requests.post(f'{backend_url}/interact', json={'input': user_input})
+            
+            # Check if the request was successful
+            if response.status_code == 200:
+                # Display the AI's response from the backend
+                ai_response = response.json().get("response", "No response received from the AI")
+                add_to_history(user_input, ai_response)
+            else:
+                # Handle backend error responses
+                st.write(f"Error: Backend returned status code {response.status_code}")
         except Exception as e:
+            # Handle exceptions like network issues
             st.write(f"Error connecting to backend: {e}")
-            st.session_state.is_locked = False
 
-# Display chat messages
-display_chat()
+# Display chat history with auto-scrolling behavior
+with chat_placeholder:
+    display_chat_history()
 
-# User input box at the bottom
-user_input = get_input()
+# Clear the input box after sending
+if send_button:
+    st.session_state["input"] = ""
 
-# Send button
-if st.button("Send") and not st.session_state.get('is_locked', False):
-    send_message(user_input)
-    st.session_state['user_input'] = ""  # Clear input box
