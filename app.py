@@ -38,10 +38,6 @@ try:
 except Exception as e:
     st.write(f"Error reaching backend: {e}")
 
-# Display chat history in a scrolling container
-with chat_placeholder:
-    display_chat_history()
-
 # Input box at the bottom of the page
 user_input = st.text_input("Type your question here:", key="input_box")
 
@@ -74,9 +70,6 @@ if send_button and user_input:
             # Handle exceptions like network issues
             st.write(f"Error connecting to backend: {e}")
 
-# After the response is received, the chat history will automatically refresh
+# Display chat history with auto-scrolling behavior
 with chat_placeholder:
     display_chat_history()
-
-# Ensure the input box stays focused at the bottom
-st.text_input("Type your question here:", key="input_box", placeholder="Ask Barry...", label_visibility="hidden")
