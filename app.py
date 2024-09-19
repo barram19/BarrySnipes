@@ -4,15 +4,10 @@ import requests
 # Title for the application
 st.title("AI Chat App")
 
-# Set Streamlit configuration options
-st.set_option('server.enableWebsocketCompression', False)
-st.set_option('server.enableXsrfProtection', False)
-st.set_option('server.headless', True)  # Added this line to run the app in headless mode
-
 # Instructions or description for the user
 st.write("This is the front-end interface for the AI Chat App. Ask a question below and get an AI-generated response.")
 
-# Backend API URL
+# Backend API URL (no change)
 backend_url = 'https://backend-api-dot-barrysnipes.uc.r.appspot.com'
 
 # Test backend connectivity on initial page load
