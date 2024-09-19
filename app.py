@@ -2,10 +2,10 @@ import streamlit as st
 import requests
 
 # Title for the application
-st.title("AI Chat App")
+st.title("Chat w/Barry Snipes")
 
 # Instructions or description for the user
-st.write("This is the front-end interface for the AI Chat App. Ask a question below and get an AI-generated response.")
+st.write("Send your sports betting questions to Barry below. The more specific you are regarding sport or player, the better.")
 
 # Backend API URL (no change)
 backend_url = 'https://backend-api-dot-barrysnipes.uc.r.appspot.com'
