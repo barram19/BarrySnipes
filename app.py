@@ -28,16 +28,6 @@ def display_chat_history():
 # Create a placeholder for the chat history (to ensure it's above the input box)
 chat_placeholder = st.container()
 
-# Test backend connectivity on initial page load
-try:
-    response = requests.get(backend_url)
-    if response.status_code == 200:
-        st.write("Backend API is reachable!")
-    else:
-        st.write(f"Backend API error: {response.status_code}")
-except Exception as e:
-    st.write(f"Error reaching backend: {e}")
-
 # Input box at the bottom of the page
 user_input = st.text_input("Type your question here:", key="input_box")
 
