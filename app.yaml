@@ -1,9 +1,0 @@
-runtime: python39  # Ensure this matches the Python version you're using
-entrypoint: gunicorn -k gevent -b :$PORT main:app --timeout 120
-handlers:
-- url: /.*
-  script: auto
-
-automatic_scaling:
-  max_idle_instances: 5  # Increase if necessary
-  min_idle_instances: 2  # Adjust based on expected load
