@@ -8,7 +8,7 @@ st.title("Chat w/Barry Snipes")
 # Instructions or description for the user
 st.write("Send your sports betting questions to Barry below. The more specific you are regarding sport or player, the better.")
 
-# Backend API URL
+# Backend API URL (no change)
 backend_url = 'https://backend-api-dot-barrysnipes.uc.r.appspot.com'
 
 # Initialize chat history if it doesn't exist
@@ -22,8 +22,10 @@ def add_to_history(user_input, ai_response):
 # Function to display the chat history
 def display_chat_history():
     for chat in st.session_state['history']:
-        message(chat["user"], is_user=True)  # Display user message with user=True
-        message(chat["bot"])  # Display bot response
+        # User message with a custom background color for the user
+        message(chat["user"], is_user=True, key=f"user_{chat['user']}", avatar_style="none", seed="user_message", background_color="lightblue")  
+        # Bot response with a different background color for the bot
+        message(chat["bot"], is_user=False, key=f"bot_{chat['bot']}", avatar_style="none", seed="bot_message", background_color="lightgrey")
 
 # Create a placeholder for the chat history (to ensure it's above the input box)
 chat_placeholder = st.container()
@@ -38,8 +40,12 @@ try:
 except Exception as e:
     st.write(f"Error reaching backend: {e}")
 
-# Input box at the bottom of the page
-user_input = st.text_input("Type your question here:", key="input_box")
+# Input box at the bottom of the page, using session state for tracking
+if "input_box" not in st.session_state:
+    st.session_state["input_box"] = ""
+
+# Create the text input box
+user_input = st.text_input("Type your question here:", value=st.session_state["input_box"], key="input_box")
 
 # Add a button to send the user's input to the backend
 send_button = st.button("Send")
