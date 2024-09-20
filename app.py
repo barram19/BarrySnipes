@@ -22,7 +22,7 @@ def add_to_history(user_input, ai_response):
 # Function to display the chat history
 def display_chat_history():
     for chat in st.session_state['history']:
-        message(chat["user"], is_user=True, seed="user_message")  # Display user message with user=True
+        message(chat["user"], is_user=True, avatar=None, seed="user_message")  # Display user message with user=True
         message(chat["bot"],  seed="bot_message")  # Display bot response
 
 # Create a placeholder for the chat history (to ensure it's above the input box)
