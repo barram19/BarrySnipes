@@ -50,9 +50,6 @@ if send_button and user_input:
                 # Add the user input and bot response to the chat history
                 add_to_history(user_input, ai_response)
                 
-                # Clear the input box after the response
-                st.session_state["input_box"] = ""
-                
             else:
                 # Handle backend error responses
                 st.write(f"Error: Backend returned status code {response.status_code}")
