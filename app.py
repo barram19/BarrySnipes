@@ -37,7 +37,7 @@ send_button = st.button("Send")
 # Processing the user input when the send button is clicked
 if send_button and user_input:
     # Disable the send button while processing the request
-    with st.spinner("Processing..."):
+    with st.spinner("Crunching the latest numbers... results are coming!"):
         # Send the input to the backend API
         try:
             response = requests.post(f'{backend_url}/interact', json={'input': user_input})
